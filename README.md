@@ -1,3 +1,3 @@
 Project Name: Email password authentication
 
-live site: email-pass-auth-ana.surge.sh
+live site: https://email-pass-auth-ana.surge.sh/
