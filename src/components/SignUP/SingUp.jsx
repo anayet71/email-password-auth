@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-init";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 
 const SingUp = () => {
@@ -96,6 +97,7 @@ const SingUp = () => {
                     {
                         errorMessage && <p className="text-red-500  font-semibold py-5 text-center">{errorMessage}</p>
                     }
+                    <p className="opacity-70 hover:opacity-100">Already have an account? Please <Link className="link-hover" to={'/login'}>Log in</Link></p>
                     </div>
                 </form>
 
