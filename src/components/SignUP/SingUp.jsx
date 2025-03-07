@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-init";
 import { useState } from "react";
+import { FaEye } from "react-icons/fa";
 
 
 const SingUp = () => {
@@ -8,6 +9,9 @@ const SingUp = () => {
     const [success, setSuccess] = useState('')
 
     const [errorMessage, setErrorMessage] = useState('')
+
+    const [showPassword, setShowPassword] = useState(false)
+
 
     const handleSignUp = e => {
         e.preventDefault();
@@ -24,7 +28,7 @@ const SingUp = () => {
 
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
 
-        if(!passwordRegex.test(password)){
+        if (!passwordRegex.test(password)) {
             setErrorMessage('At least one uppercase, one lower case, one number, one special character ')
             return
         }
@@ -40,21 +44,25 @@ const SingUp = () => {
                 setErrorMessage(error.message)
             })
 
-    }
+            
+        }
+        //  Show password
+        
 
     return (
         <div className=" bg-base-200 pt-24 py-10  text-center">
-            <div className="hero-content flex-col lg:flex-row-reverse text-[#f7b538] ">
+            <div className=" flex-col lg:flex-row-reverse text-[#f7b538] ">
                 <form onSubmit={handleSignUp}>
-
-                    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                    <div className=" bg-base-100 w-full max-w-sm mx-auto shrink-0 shadow-2xl">
                         <div className="card-body">
                             <h1 className="text-3xl font-bold text-center pb-6">Sign Up</h1>
-                            <fieldset className="fieldset">
+                            <fieldset className="fieldset relative">
                                 <label className="fieldset-label">Email</label>
                                 <input type="email" name="email" className="input" placeholder="Email" />
                                 <label className="fieldset-label">Password</label>
-                                <input type="password" name='password' className="input" placeholder="Password" />
+
+                                <input type={showPassword? 'text' : 'password'} name='password' className="input" placeholder="Password" />
+                                <button onClick={() => setShowPassword(!showPassword)}  type="button" className="btn btn-xs absolute right-6 bottom-25"><FaEye></FaEye></button>
                                 <div><a className="link link-hover">Forgot password?</a></div>
                                 <button className="btn bg-[#f7b538] text-[#780116] mt-4">Sign Up</button>
                             </fieldset>
