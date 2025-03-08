@@ -22,7 +22,12 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((result) => {
                 console.log(result.user);
-                setSuccess(true)
+                if (!result.user.emailVerified) {
+                    setLoginError('Please verify your email')
+                }
+                else {
+                    setSuccess(true)
+                }
 
             })
             .catch(error => {
@@ -54,8 +59,8 @@ const Login = () => {
                                 <button className="btn btn-neutral mt-4">Login</button>
                             </fieldset>
                         </form>
-                    
-                       <p> New to this site? <Link className="link-hover" to={'/signUp'}>Sign Up</Link></p>
+
+                        <p> New to this site? <Link className="link-hover" to={'/signUp'}>Sign Up</Link></p>
                         {
                             success && <p className="text-green-500">User login successful</p>
                         }

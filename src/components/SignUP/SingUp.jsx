@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from "../../firebase-init";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -44,6 +44,15 @@ const SingUp = () => {
             .then(result => {
                 console.log(result.user)
                 setSuccess(result.user)
+
+                // send verification email address
+                sendEmailVerification(auth.currentUser)
+                .then(() =>{
+                    console.log('verification email sent');
+                    
+                })
+                
+
             })
             .catch(error => {
                 console.log('Error', error)
