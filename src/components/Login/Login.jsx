@@ -1,12 +1,13 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-init";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
 
     const [success, setSuccess] = useState('')
     const [loginError, setLoginError] = useState('')
+    const emailRef = useRef()
 
     const handleLogIn = e => {
         e.preventDefault()
@@ -28,13 +29,29 @@ const Login = () => {
                 else {
                     setSuccess(true)
                 }
-
             })
             .catch(error => {
                 console.log('Error', error.message);
                 setLoginError(error.message)
             })
 
+    }
+    const handleForgetPassword = () => {
+        // sendPasswordResetEmail(auth, email)
+        console.log('get me email', emailRef.current.value);
+        const email = emailRef.current.value
+        if (!email) {
+            console.log('Please provide a valid email address');
+        }
+        else {
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    alert(' Password Reset email sent, please check your email')
+                })
+                .catch((error) => {
+                    setLoginError(error)
+                });
+        }
     }
 
     return (
@@ -52,10 +69,10 @@ const Login = () => {
                         <form onSubmit={handleLogIn} className="card-body">
                             <fieldset className="fieldset">
                                 <label className="fieldset-label">Email</label>
-                                <input type="email" name="email" className="input" placeholder="Email" />
+                                <input ref={emailRef} type="email" name="email" className="input" placeholder="Email" />
                                 <label className="fieldset-label">Password</label>
                                 <input type="password" name="password" className="input" placeholder="Password" />
-                                <div><a className="link link-hover">Forgot password?</a></div>
+                                <div onClick={handleForgetPassword}><a className="link link-hover">Forgot password?</a></div>
                                 <button className="btn btn-neutral mt-4">Login</button>
                             </fieldset>
                         </form>
